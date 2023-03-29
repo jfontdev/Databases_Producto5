@@ -69,7 +69,7 @@ public class GestionOS {
         String nif = teclado.nextLine();
         System.out.print("Email: ");
         String email = teclado.nextLine();
-        if(datos.customerExists(email)){
+        if(clientesControlador.clientExists(email)){
             System.out.println("El cliente ya existe");
             return;
         }
