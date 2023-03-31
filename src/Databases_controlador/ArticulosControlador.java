@@ -9,7 +9,7 @@ public class ArticulosControlador {
     private Datos datos;
     private ArticuloVista articuloVista;
 
-    public ArticuloControlador(Datos datos) {
+    public ArticulosControlador(Datos datos) {
         this.datos = datos;
         this.articuloVista = new ArticuloVista();
     }
