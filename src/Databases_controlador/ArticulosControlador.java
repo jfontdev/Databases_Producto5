@@ -17,7 +17,7 @@ public class ArticulosControlador {
 
 
     public void articleList(){
-        final ArrayList<Articulo> clientes = datos.getArticles();
+        final ArrayList<Articulo> articulos = datos.getArticles();
         this.articuloVista.renderAll(articulos);
     }
 
