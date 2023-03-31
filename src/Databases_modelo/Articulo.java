@@ -3,8 +3,8 @@ import java.util.StringJoiner;
 
 
 public abstract class Articulo {
-  private string codigoArticulo;
-  private string descripcion;
+  private String codigoArticulo;
+  private String descripcion;
   private float precioVenta;
   private float gastosEnvio;
   private int tiempoPreparacion;
