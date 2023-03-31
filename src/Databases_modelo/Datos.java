@@ -30,14 +30,14 @@ public class Datos {
         }catch (Exception e){
             System.out.println("La carga de datos ha fallado");
         }
-        Articulo articulo1 = new Articulo("1", "Nevera", "499,99", "19,99", "3");
+        Articulo articulo1 = new Articulo("1", "Nevera", 499.99f, 19.99f, 3);
         try {
           listaArticulos.add(articulo1);
-          Articulo articulo2 = new Articulo("2", "Batidora", "49,99", "4,99", "1");
+          Articulo articulo2 = new Articulo("2", "Batidora", 500.90f, 7.00f, 1);
           listaArticulos.add(articulo2);
-          Articulo articulo3 = new Articulo("3", "Microondas", "129,99", "7,99", "2");
+          Articulo articulo3 = new Articulo("3", "Microondas", 56.99f, 45.89f, 2);
           listaArticulos.add(articulo3);
-          Articulo articulo4 = new Articulo("4", "Monitor", "99,99", "4,99", "1");
+          Articulo articulo4 = new Articulo("4", "Monitor", 34.67f, 34.89f, 1);
           listaArticulos.add(articulo4);
         }catch (Exception e){
           System.out.println("La carga de datos ha fallado");
@@ -46,6 +46,10 @@ public class Datos {
 
     public ArrayList<Cliente> getCustomers() {
         return this.listaClientes.getArrayList();
+    }
+
+    public ListaArticulos getArticulos() {
+        return this.listaArticulos;
     }
 
     public ArrayList<Cliente> getPremiumCustomers(){
@@ -87,12 +91,6 @@ public class Datos {
     }
     public ArrayList<Articulo> getArticles() {
       return this.listaArticulos.getArrayList();
-    }
-    public boolean articleExists(String codigoArticulo){
-      return this.listaArticulos.constains(codigoArticulo);
-    }
-    public int articleLength(){
-      return this.listaArticulos.getSize();
     }
     public void articleAdd(Articulo articulo) throws Exception {
       try{

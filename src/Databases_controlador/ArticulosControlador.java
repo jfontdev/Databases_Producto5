@@ -30,22 +30,8 @@ public class ArticulosControlador {
         }
     }
 
-    public boolean articleExists(String codigoArticulo){
-        return this.datos.articleExists(codigoArticulo);
-    }
-
-    public Articulo returnArticulo(String codigoArticulo){
-        Articulo articulo = null;
-        try {
-            for (int i = 0; i < this.datos.customerLength(); i++){
-                if (email.equals(this.datos.getCustomers().get(i).getEmail())){
-                    cliente = this.datos.getCustomers().get(i);
-                }
-            }
-        }catch (Exception e){
-            articuloVista.error(e);
-        }
-        return cliente;
+    public Articulo returnArticulo(String codigoArticulo) {
+        return this.datos.getArticulos().getByCode(codigoArticulo);
     }
 
 }

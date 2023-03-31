@@ -10,6 +10,15 @@ public class ListaArticulos extends Lista<Articulo>{
         return false;
     }
 
+    public Articulo getByCode(String codigoArticulo) {
+        for (Articulo articulo : this.lista) {
+            if (articulo.getCodigoArticulo().equals(codigoArticulo)) {
+                return articulo;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void add(Articulo articulo) throws Exception{
         if(contains(articulo.getCodigoArticulo())){
