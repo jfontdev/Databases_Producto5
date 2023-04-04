@@ -86,6 +86,10 @@ public class Datos {
         return this.listaClientes.contains(email);
     }
 
+    public boolean articleExists(String artCod){
+        return this.listaArticulos.contains(artCod);
+    }
+
     public int customerLength(){
         return this.listaClientes.getSize();
     }

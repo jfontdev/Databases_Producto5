@@ -14,8 +14,6 @@ public class ArticulosControlador {
         this.articuloVista = new ArticuloVista();
     }
 
-
-
     public void articleList(){
         final ArrayList<Articulo> articulos = datos.getArticles();
         this.articuloVista.renderAll(articulos);
@@ -32,6 +30,10 @@ public class ArticulosControlador {
 
     public Articulo returnArticulo(String codigoArticulo) {
         return this.datos.getArticulos().getByCode(codigoArticulo);
+    }
+
+    public boolean articuloRepe(String codigoArticulo) {
+        return this.datos.articleExists(codigoArticulo);
     }
 
 }

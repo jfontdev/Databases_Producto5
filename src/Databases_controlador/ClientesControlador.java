@@ -15,8 +15,6 @@ public class ClientesControlador {
         this.clienteVista = new ClienteVista();
     }
 
-
-
     public void clientList(){
         final ArrayList<Cliente> clientes = datos.getCustomers();
         this.clienteVista.renderAll(clientes);
