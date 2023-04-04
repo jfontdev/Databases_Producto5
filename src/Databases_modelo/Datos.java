@@ -2,6 +2,7 @@ package Databases_modelo;
 
 import enums.ClienteTipo;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Datos {
@@ -75,5 +76,30 @@ public class Datos {
         return this.listaClientes.getSize();
     }
 
+    /*
+     *Pedidos
+     */
+
+    public ArrayList<Pedido> getOrders() {
+        return this.listaPedidos.getArrayList();
+    }
+    public String verPedidos() {
+        return listaPedidos.toString();
+    }
+
+    public void orderAdd(int cantidad, String numeroPedido, LocalDateTime now, String nif, String codigoArticulo) {
+        //int posicion = -1;
+        Articulo art = null;
+        Cliente cli = null;
+        for (Articulo aux : listaArticulos.getArrayList()) {
+            if (aux.getCodigo().equals(codigoArticulo)) {
+                //posicion = listaArticulos.getArrayList().indexOf(aux);
+                art = aux;
+                break;
+            }
+        }
+
+
+    }
 
 }
