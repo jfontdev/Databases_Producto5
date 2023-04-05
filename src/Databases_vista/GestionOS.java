@@ -2,24 +2,29 @@ package Databases_vista;
 
 import Databases_controlador.ArticulosControlador;
 import Databases_controlador.ClientesControlador;
+import Databases_controlador.PedidosControlador;
 import Databases_modelo.Articulo;
 import Databases_modelo.ClienteEstandard;
 import Databases_modelo.ClientePremium;
+import Databases_modelo.Pedido;
 import Databases_modelo.Datos;
 import enums.ClienteTipo;
 
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class GestionOS {
     private Datos datos;
     private ClientesControlador clientesControlador;
     private ArticulosControlador articulosControlador;
+    private PedidosControlador pedidosControlador;
     Scanner teclado = new Scanner(System.in);
 
     public GestionOS(){
         this.datos = new Datos();
         this.clientesControlador = new ClientesControlador(this.datos);
         this.articulosControlador = new ArticulosControlador(this.datos);
+        this.pedidosControlador = new PedidosControlador(this.datos);
     }
 
     public void inicio(){
@@ -32,6 +37,8 @@ public class GestionOS {
             System.out.println("4. Mostrar Clientes Estandard");
             System.out.println("5. Mostrar artículo");
             System.out.println("6. Registrar artículo");
+            System.out.println("7. Crear Pedidos");
+            System.out.println("8. Mostrar Pedidos");
             System.out.println("0. Salir de la aplicacion");
             opcion = pedirOpcion();
             switch (opcion){
@@ -52,6 +59,12 @@ public class GestionOS {
                 case '6':
                     createArticulos();
                     break;
+                case '7':
+                    crearPedido();
+                    break;
+                case '8':
+                    listarPedidos();
+                    break;
                 case '0':
                     salir = true;
             }
@@ -60,7 +73,7 @@ public class GestionOS {
 
     char pedirOpcion(){
         String respuesta;
-        System.out.println("Elige una opcion (1,2,3,4 o 0):");
+        System.out.println("Elige una opcion (1,2,3,4, 5, 6, 7, 8 o 0):");
         respuesta = teclado.nextLine();
         if (respuesta.isEmpty()){
             respuesta = " ";
@@ -137,4 +150,32 @@ public class GestionOS {
     public void listarArticulos() {
         this.articulosControlador.articleList();
     }
+
+    /*
+    ********* Pedidos************
+    */
+    public void crearPedido() {
+        System.out.println("Crear Pedido: ");
+        System.out.print("Número de pedido: ");
+        String numeroPedido = teclado.nextLine();
+        System.out.print("Cantidad: ");
+        String cantidad = teclado.nextLine();
+        System.out.print("Fecha de Pedido: ");
+        String fechaPedido = teclado.nextLine();
+        System.out.print("Cliente: ");
+        String cli = teclado.nextLine();
+        System.out.print("Artículo: ");
+        String art = teclado.nextLine();
+        if(pedidosControlador.pedidoExists(numeroPedido)){
+            System.out.println("El pedido ya existe");
+            return;
+        }
+    }
+
+
+    public void listarPedidos(){ this.articulosControlador.articleList();
+
+    }
+
+
 }

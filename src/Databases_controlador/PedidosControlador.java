@@ -19,6 +19,9 @@ public class PedidosControlador {
         this.pedidoVista = new PedidoVista();
     }
 
+    public boolean pedidoExists(String numeroPedido) {
+        return this.datos.pedidoExists(numeroPedido);
+    }
     public void OrderList() {
         final ArrayList<Pedido> pedidos = datos.getOrders();
         this.pedidoVista.renderAll(pedidos);
@@ -26,13 +29,12 @@ public class PedidosControlador {
 
     public void createorder(Pedido pedido){
         try {
-            this.datos.(pedido);
+            this.datos.pedidoAdd(pedido);
             this.pedidoVista.render(pedido);
         }catch (Exception e){
             pedidoVista.error(e);
         }
     }
-
 
 }
 

@@ -2,7 +2,8 @@ package Databases_modelo;
 
 import enums.ClienteTipo;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import java.util.ArrayList;
 
 public class Datos {
@@ -44,7 +45,21 @@ public class Datos {
           System.out.println("La carga de datos ha fallado");
         }
     }
+        /*
+        Pedido pedido1 = new Pedido(3,"ord001",  2023-04-01, 1, 1);
+        try {
+            listaPedidos.add(pedido1);
+            Pedido pedido2 = new Pedido(5, "ord002", 2023-04-01, 3,2 );
+            listaPedidos.add(pedido2);
+            Pedido pedido3 = new Pedido(1, "ord003",2023-04-01, 2, 3);
+            listaPedidos.add(pedido3);
+            Pedido pedido4 = new Pedido(7,"ord004",2023-04-01,"david@gmail.com"", );
 
+        }catch (Exception e) {
+            System.out.println("La carga de datos ha fallado");
+        }
+
+        */
     public ArrayList<Cliente> getCustomers() {
         return this.listaClientes.getArrayList();
     }
@@ -107,28 +122,29 @@ public class Datos {
     }
 
     /*
-     *Pedidos
+     *********Pedidos***********
      */
 
     public ArrayList<Pedido> getOrders() {
         return this.listaPedidos.getArrayList();
     }
+    public boolean pedidoExists(String numPedido){
+        return this.listaPedidos.contains(numPedido);
+    }
     public String verPedidos() {
         return listaPedidos.toString();
     }
 
-    public void orderAdd(int cantidad, String numeroPedido, LocalDateTime now, String nif, String codigoArticulo) {
-        //int posicion = -1;
-        Articulo art = null;
-        Cliente cli = null;
-        for (Articulo aux : listaArticulos.getArrayList()) {
-            if (aux.getCodigo().equals(codigoArticulo)) {
-                //posicion = listaArticulos.getArrayList().indexOf(aux);
-                art = aux;
-                break;
-            }
+    public void pedidoAdd(Pedido pedido) throws Exception {
+        try{
+            this.listaPedidos.add(pedido);
+        }catch (Exception e){
+            throw e;
         }
-
-
     }
+
+
+
+
+
 }

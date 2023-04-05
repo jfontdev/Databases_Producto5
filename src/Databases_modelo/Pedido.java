@@ -1,6 +1,7 @@
 package Databases_modelo;
 
 import java.time.LocalDateTime;
+
 public class Pedido {
 
     private int cantidad;
@@ -12,7 +13,7 @@ public class Pedido {
     /*
      *para los metodos
      **/
-    private boolean Enviado;
+    private LocalDateTime fechaEnvio;
     private float precioEnvio;
 
 
@@ -27,7 +28,19 @@ public class Pedido {
         this.art = art;
 
     }
-
+    /*
+    * Método para calcular pedido enviado
+    */
+    public static LocalDateTime calcularEnvio(LocalDateTime fecha, int minutos) {
+        return fecha.plusMinutes(minutos);
+    }
+    public void calcularEnvio() {
+        fechaEnvio = fechaPedido.plusMinutes(art.getTiempoPreparacion());
+    }
+    public boolean pedidoEnviado() {
+        calcularEnvio();
+        return fechaEnvio.isBefore(LocalDateTime.now());
+    }
     /*
      **Metodo para calcular precio de los productos del pedido más los gastos de envío
      */
@@ -97,16 +110,15 @@ public class Pedido {
 
     @Override
     public String toString() {
-        return "Pedido{" +
+        return "Pedido " +
                 "cantidad=" + cantidad +
                 ", numeroPedido='" + numeroPedido + '\'' +
                 ", fechaPedido=" + fechaPedido +
                 ", cl=" + cl +
                 ", art=" + art +
-                ", gastosEnvio"= + gastosEnvio +
-                ", Enviado=" + Enviado +
-                ", precioEnvio=" + precioEnvio +
-                '}';
+                ", gastosEnvio"= + art.getGastosEnvio() +
+                ", Enviado=" + pedidoEnviado() +
+                ", precioEnvio=" + precioEnvio();
     }
 }
 

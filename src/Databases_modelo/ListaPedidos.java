@@ -1,14 +1,23 @@
 package Databases_modelo;
 
-public class ListaPedidos extends Lista<Pedido> {
-
-    public String toString() {
-        int indx = 0;
-        String out = "Lista de Pedidos:\n";
-        for (Pedido aux : lista) {
-            out += indx + " - " + aux + "\n\n";
-            indx++;
+public class ListaPedidos extends Lista<Pedido>{
+    public boolean contains(String numeroPedido){
+        for (Pedido pedido : this.lista) {
+            if (pedido.getNumeroPedido().equals(numeroPedido)) {
+                return true;
+            }
         }
-        return out;
+        return false;
+    }
+
+    @Override
+    public void add(Pedido pedido) throws Exception{
+        if(contains(pedido.getNumeroPedido())){
+            throw new Exception("El cliente ya existe");
+        }else {
+            this.lista.add(pedido);
+        }
     }
 }
+
+
