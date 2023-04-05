@@ -1,6 +1,8 @@
 package Databases_vista;
 
+import Databases_controlador.ArticulosControlador;
 import Databases_controlador.ClientesControlador;
+import Databases_modelo.Articulo;
 import Databases_modelo.ClienteEstandard;
 import Databases_modelo.ClientePremium;
 import Databases_modelo.Datos;
@@ -11,11 +13,13 @@ import java.util.Scanner;
 public class GestionOS {
     private Datos datos;
     private ClientesControlador clientesControlador;
+    private ArticulosControlador articulosControlador;
     Scanner teclado = new Scanner(System.in);
 
     public GestionOS(){
         this.datos = new Datos();
         this.clientesControlador = new ClientesControlador(this.datos);
+        this.articulosControlador = new ArticulosControlador(this.datos);
     }
 
     public void inicio(){
@@ -26,6 +30,8 @@ public class GestionOS {
             System.out.println("2. Mostrar Clientes");
             System.out.println("3. Mostrar Clientes Premium");
             System.out.println("4. Mostrar Clientes Estandard");
+            System.out.println("5. Mostrar artículo");
+            System.out.println("6. Registrar artículo");
             System.out.println("0. Salir de la aplicacion");
             opcion = pedirOpcion();
             switch (opcion){
@@ -40,6 +46,11 @@ public class GestionOS {
                     break;
                 case '4':
                     listarClientes(teclado,ClienteTipo.ESTANDARD);
+                case '5':
+                    listarArticulos();
+                    break;
+                case '6':
+                    createArticulos();
                     break;
                 case '0':
                     salir = true;
@@ -56,6 +67,26 @@ public class GestionOS {
         }
         return respuesta.charAt(0);
     }
+    public void createArticulos() {
+        System.out.println("Crear articulo: ");
+        System.out.println("codigo articulo: ");
+        String codigoArticulo = teclado.nextLine();
+        System.out.println("Descripcion: ");
+        String descripcion = teclado.nextLine();
+        System.out.println("Precio de venta: ");
+        Float precioVenta = teclado.nextFloat();
+        System.out.println("Coste envio: ");
+        Float gastosEnvio = teclado.nextFloat();
+        System.out.println("Tiempo preparacion: ");
+        Integer tiempoPreparacion = teclado.nextInt();
+        if(!articulosControlador.articuloRepe(codigoArticulo)) {
+            Articulo articulo = new Articulo(codigoArticulo, descripcion, precioVenta, gastosEnvio, tiempoPreparacion);
+            this.articulosControlador.createArticle(articulo);
+        } else {
+           System.out.println("Ya existe este artículo");
+        }
+    }
+
 
     public void crearCliente() {
         System.out.println("Crear Cliente: ");
@@ -91,16 +122,19 @@ public class GestionOS {
     }
 
     public void listarClientes(Scanner scanner, ClienteTipo clienteTipo) {
-        if (clienteTipo != null){
-            if (clienteTipo == ClienteTipo.ESTANDARD){
+        if (clienteTipo != null) {
+            if (clienteTipo == ClienteTipo.ESTANDARD) {
                 clientesControlador.standardClientList();
             }
-            if (clienteTipo == ClienteTipo.PREMIUM){
+            if (clienteTipo == ClienteTipo.PREMIUM) {
                 clientesControlador.premiumClientList();
             }
-        }
-        else {
+        } else {
             clientesControlador.clientList();
         }
+
+    }
+    public void listarArticulos() {
+        this.articulosControlador.articleList();
     }
 }
