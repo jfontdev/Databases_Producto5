@@ -11,7 +11,7 @@ public class PedidoVista {
 
     public void renderAll(ArrayList<Pedido> pedidos){
         for (Pedido pedido : pedidos){
-            System.out.println(pedido.getNumeroPedido() + " " + pedido.getCantidad() + " " + pedido.getFechaPedido() + " " + pedido.getArt() + " " + pedido.getCl() );
+            System.out.println(pedido.getNumeroPedido() + " | " + pedido.getArticulo().getDescripcion() + " | " + pedido.getFechaPedido() + " | " + pedido.getCliente().getNombre() + " " + pedido.getCliente().getApellidos() + " " + pedido.getCliente().getNif());
         }
     }
 
