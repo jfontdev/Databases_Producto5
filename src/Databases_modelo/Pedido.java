@@ -4,50 +4,62 @@ import java.time.LocalDateTime;
 
 public class Pedido {
 
-    private int cantidad;
+    public static int numeroPedidoId;
     private String numeroPedido;
+    private Cliente cliente;
+    private Articulo articulo;
+    private int cantidadArticulo;
     private LocalDateTime fechaPedido;
-    private Cliente cl;
-    private Articulo art;
-
-    /*
-     *para los metodos
-     **/
     private LocalDateTime fechaEnvio;
-    private float precioEnvio;
-
+    private int tiempoPreparacion ;
+    private boolean seHaEnviado;
 
     /*
      * Constructor
      */
-    public Pedido(int cantidad, String numeroPedido, LocalDateTime fechaPedido, Cliente cl, Articulo art) {
-        this.cantidad = cantidad;
-        this.numeroPedido = numeroPedido;
-        this.fechaPedido = fechaPedido;
-        this.cl = cl;
-        this.art = art;
-
+    public Pedido(Cliente cliente, Articulo articulo, int cantidadArticulo)  {
+        this.cliente = cliente;
+        this.articulo = articulo;
+        this.cantidadArticulo = cantidadArticulo;
+        this.numeroPedido = generadorIdPedido();
+        this.fechaPedido = LocalDateTime.now();
+        this.tiempoPreparacion = articulo.getTiempoPreparacion();
     }
+
+    public static String generadorIdPedido(){
+        numeroPedidoId++;
+        return String.valueOf(numeroPedidoId);
+    }
+
     /*
     * Método para calcular pedido enviado
     */
-    public static LocalDateTime calcularEnvio(LocalDateTime fecha, int minutos) {
-        return fecha.plusMinutes(minutos);
-    }
     public void calcularEnvio() {
-        fechaEnvio = fechaPedido.plusMinutes(art.getTiempoPreparacion());
+        fechaEnvio = fechaPedido.plusDays(tiempoPreparacion);
     }
     public boolean pedidoEnviado() {
         calcularEnvio();
-        return fechaEnvio.isBefore(LocalDateTime.now());
+        seHaEnviado = fechaEnvio.isBefore(LocalDateTime.now());
+        return seHaEnviado;
+    }
+
+    public boolean esCancelable() {
+        return  !seHaEnviado;
     }
     /*
      **Metodo para calcular precio de los productos del pedido más los gastos de envío
      */
+
+    public float calcularGastosEnvio() {
+        float descuentoCliente = this.cliente.getDescuentoCliente() / 100;
+        float descuento = descuentoCliente > 0 ? articulo.getGastosEnvio() * descuentoCliente : articulo.getGastosEnvio();
+        return articulo.getGastosEnvio() - descuento;
+    }
+
     public float precioEnvio() {
-        float precio = art.getPrecioVenta() * cantidad;
-        precio += (art.getGastosEnvio() * (1 - cl.descuentoEnv()));
-        return precio;
+        float precioArticulo = articulo.getPrecioVenta() * cantidadArticulo;
+        float costeEnvio = calcularGastosEnvio();
+        return precioArticulo + costeEnvio;
     }
     /*
      *********************Getters & Setters************************
@@ -56,12 +68,12 @@ public class Pedido {
     /*
      * cantidad
      */
-    public int getCantidad() {
-        return cantidad;
+    public int getCantidadArticulo() {
+        return cantidadArticulo;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public void setCantidadArticulo(int cantidadArticulo) {
+        this.cantidadArticulo = cantidadArticulo;
     }
 
     /*
@@ -89,36 +101,38 @@ public class Pedido {
     /*
      * cliente
      */
-    public Cliente getCl() {
-        return cl;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setCl(Cliente cl) {
-        this.cl = cl;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     /*
      * articulo
      */
-    public Articulo getArt() {
-        return art;
+    public Articulo getArticulo() {
+        return articulo;
     }
 
-    public void setArt(Articulo art) {
-        this.art = art;
+    public void setArticulo(Articulo articulo) {
+        this.articulo = articulo;
     }
 
     @Override
     public String toString() {
         return "Pedido " +
-                "cantidad=" + cantidad +
                 ", numeroPedido='" + numeroPedido + '\'' +
                 ", fechaPedido=" + fechaPedido +
-                ", cl=" + cl +
-                ", art=" + art +
-                ", gastosEnvio"= + art.getGastosEnvio() +
-                ", Enviado=" + pedidoEnviado() +
-                ", precioEnvio=" + precioEnvio();
+                ", nombreCliente=" + cliente.getNombre() +
+                ", nifCliente=" + cliente.getNif() +
+                ", articuloCodigo=" + articulo.getCodigoArticulo() +
+                ", articuloDescripcion=" + articulo.getDescripcion() +
+                ", cantidad=" + cantidadArticulo +
+                ", articuloPrecio=" + articulo.getPrecioVenta() +
+                ", precioEnvio=" + precioEnvio() +
+                ", Enviado=" + pedidoEnviado();
     }
 }
 
