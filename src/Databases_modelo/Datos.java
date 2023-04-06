@@ -44,22 +44,23 @@ public class Datos {
         }catch (Exception e){
           System.out.println("La carga de datos ha fallado");
         }
-    }
-        /*
-        Pedido pedido1 = new Pedido(3,"ord001",  2023-04-01, 1, 1);
+        Pedido pedido1 = new Pedido(listaClientes.getAt(0),listaArticulos.getAt(0),  20);
         try {
             listaPedidos.add(pedido1);
-            Pedido pedido2 = new Pedido(5, "ord002", 2023-04-01, 3,2 );
+            Pedido pedido2 = new Pedido(listaClientes.getAt(1),listaArticulos.getAt(2),  25);
             listaPedidos.add(pedido2);
-            Pedido pedido3 = new Pedido(1, "ord003",2023-04-01, 2, 3);
+            Pedido pedido3 = new Pedido(listaClientes.getAt(2),listaArticulos.getAt(1),  10);
             listaPedidos.add(pedido3);
-            Pedido pedido4 = new Pedido(7,"ord004",2023-04-01,"david@gmail.com"", );
-
+            Pedido pedido4 = new Pedido(listaClientes.getAt(3),listaArticulos.getAt(0),  5);
+            listaPedidos.add(pedido4);
         }catch (Exception e) {
             System.out.println("La carga de datos ha fallado");
         }
+    }
 
-        */
+
+
+
     public ArrayList<Cliente> getCustomers() {
         return this.listaClientes.getArrayList();
     }
@@ -128,12 +129,34 @@ public class Datos {
     public ArrayList<Pedido> getOrders() {
         return this.listaPedidos.getArrayList();
     }
+
+
+    public ArrayList<Pedido> getPedidosEnviados(){
+        ArrayList<Pedido> pedidosEnviados = new ArrayList<Pedido>();
+        for (int i = 0; i < this.listaPedidos.getSize(); i++){
+            if (this.listaPedidos.getAt(i).pedidoEnviado()){
+                pedidosEnviados.add(this.listaPedidos.getAt(i));
+            }
+        }
+        return pedidosEnviados;
+    }
+
+    public ArrayList<Pedido> getPedidosPendientes(){
+        ArrayList<Pedido> pedidosPendientes = new ArrayList<Pedido>();
+
+        for (int i = 0; i < this.listaPedidos.getSize(); i++){
+            if (!this.listaPedidos.getAt(i).pedidoEnviado()){
+                pedidosPendientes.add(this.listaPedidos.getAt(i));
+            }
+        }
+        return pedidosPendientes;
+    }
+
+
     public boolean pedidoExists(String numPedido){
         return this.listaPedidos.contains(numPedido);
     }
-    public String verPedidos() {
-        return listaPedidos.toString();
-    }
+
 
     public void pedidoAdd(Pedido pedido) throws Exception {
         try{
@@ -143,8 +166,8 @@ public class Datos {
         }
     }
 
+    public void borrarPedido(Pedido pedido){this.listaPedidos.delete(pedido);}
 
-
-
+    public int longitudPedidos() {return this.listaPedidos.getSize();}
 
 }
