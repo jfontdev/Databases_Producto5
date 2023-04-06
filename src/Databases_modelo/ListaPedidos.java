@@ -13,7 +13,7 @@ public class ListaPedidos extends Lista<Pedido>{
     @Override
     public void add(Pedido pedido) throws Exception{
         if(contains(pedido.getNumeroPedido())){
-            throw new Exception("El cliente ya existe");
+            throw new Exception("El pedido ya existe");
         }else {
             this.lista.add(pedido);
         }

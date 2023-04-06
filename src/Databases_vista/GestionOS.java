@@ -3,14 +3,10 @@ package Databases_vista;
 import Databases_controlador.ArticulosControlador;
 import Databases_controlador.ClientesControlador;
 import Databases_controlador.PedidosControlador;
-import Databases_modelo.Articulo;
-import Databases_modelo.ClienteEstandard;
-import Databases_modelo.ClientePremium;
-import Databases_modelo.Pedido;
-import Databases_modelo.Datos;
+import Databases_modelo.*;
 import enums.ClienteTipo;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class GestionOS {
@@ -29,68 +25,79 @@ public class GestionOS {
 
     public void inicio(){
         boolean salir = false;
-        char opcion;
+        int opcion;
         do {
+            System.out.print("\n");
             System.out.println("1. Crear Cliente");
             System.out.println("2. Mostrar Clientes");
             System.out.println("3. Mostrar Clientes Premium");
             System.out.println("4. Mostrar Clientes Estandard");
-            System.out.println("5. Mostrar artículo");
-            System.out.println("6. Registrar artículo");
-            System.out.println("7. Crear Pedidos");
+            System.out.println("5. Crear artículo");
+            System.out.println("6. Mostrar artículos");
+            System.out.println("7. Crear Pedido");
             System.out.println("8. Mostrar Pedidos");
+            System.out.println("9. Mostrar Pedidos Enviados");
+            System.out.println("10. Mostrar Pedidos Pendientes");
+            System.out.println("11. Borrar Pedido");
             System.out.println("0. Salir de la aplicacion");
             opcion = pedirOpcion();
             switch (opcion){
-                case '1':
+                case 1:
                     crearCliente();
                     break;
-                case '2':
+                case 2:
                     listarClientes(teclado,null);
                     break;
-                case '3':
+                case 3:
                     listarClientes(teclado,ClienteTipo.PREMIUM);
                     break;
-                case '4':
+                case 4:
                     listarClientes(teclado,ClienteTipo.ESTANDARD);
-                case '5':
-                    listarArticulos();
                     break;
-                case '6':
+                case 5:
                     createArticulos();
                     break;
-                case '7':
+                case 6:
+                    listarArticulos();
+                    break;
+                case 7:
                     crearPedido();
                     break;
-                case '8':
-                    listarPedidos();
+                case 8:
+                    listarPedidos(teclado,null);
                     break;
-                case '0':
+                case 9 :
+                    listarPedidos(teclado,true);
+                    break;
+                case 10 :
+                    listarPedidos(teclado,false);
+                    break;
+                case 11 :
+                    borrarPedido(teclado);
+                    break;
+                case 0:
                     salir = true;
             }
         } while (!salir);
     }
 
-    char pedirOpcion(){
-        String respuesta;
-        System.out.println("Elige una opcion (1,2,3,4, 5, 6, 7, 8 o 0):");
-        respuesta = teclado.nextLine();
-        if (respuesta.isEmpty()){
-            respuesta = " ";
-        }
-        return respuesta.charAt(0);
+    int pedirOpcion(){
+        int respuesta;
+        System.out.println("Elige una opcion (1,2,3,4, 5, 6, 7, 8, 9, 10, 11 o 0):");
+        respuesta = teclado.nextInt();
+        return respuesta;
     }
     public void createArticulos() {
-        System.out.println("Crear articulo: ");
-        System.out.println("codigo articulo: ");
-        String codigoArticulo = teclado.nextLine();
-        System.out.println("Descripcion: ");
-        String descripcion = teclado.nextLine();
-        System.out.println("Precio de venta: ");
+        System.out.println("--- Crear articulo ---");
+        System.out.print("codigo articulo: ");
+        String codigoArticulo = teclado.next();
+        System.out.print("Descripcion: ");
+        String descripcion = teclado.next();
+        System.out.print("Precio de venta: ");
         Float precioVenta = teclado.nextFloat();
-        System.out.println("Coste envio: ");
+        System.out.print("Coste envio: ");
         Float gastosEnvio = teclado.nextFloat();
-        System.out.println("Tiempo preparacion: ");
+        System.out.print("Tiempo preparacion: ");
         Integer tiempoPreparacion = teclado.nextInt();
         if(!articulosControlador.articuloRepe(codigoArticulo)) {
             Articulo articulo = new Articulo(codigoArticulo, descripcion, precioVenta, gastosEnvio, tiempoPreparacion);
@@ -102,15 +109,19 @@ public class GestionOS {
 
 
     public void crearCliente() {
-        System.out.println("Crear Cliente: ");
+        System.out.println(" -- Crear Cliente -- ");
         System.out.print("Nombre: ");
-        String nombre = teclado.nextLine();
+        String nombre = teclado.next();
+        teclado.nextLine();
         System.out.print("Apellido: ");
-        String apellido = teclado.nextLine();
+        String apellido = teclado.next();
+        teclado.nextLine();
         System.out.print("Domicilio: ");
-        String domicilio = teclado.nextLine();
+        String domicilio = teclado.next();
+        teclado.nextLine();
         System.out.print("NIF: ");
-        String nif = teclado.nextLine();
+        String nif = teclado.next();
+        teclado.nextLine();
         System.out.print("Email: ");
         String email = teclado.nextLine();
         if(clientesControlador.clientExists(email)){
@@ -120,7 +131,7 @@ public class GestionOS {
         System.out.print("Tipo (1) Premium (2) Estandard: ");
         String tipo;
         do{
-            tipo = teclado.nextLine();
+            tipo = teclado.next();
         }while (!"12".contains(tipo));
         switch (tipo){
             case "1":
@@ -148,34 +159,55 @@ public class GestionOS {
 
     }
     public void listarArticulos() {
-        this.articulosControlador.articleList();
+        articulosControlador.articleList();
     }
 
     /*
     ********* Pedidos************
     */
     public void crearPedido() {
-        System.out.println("Crear Pedido: ");
-        System.out.print("Número de pedido: ");
-        String numeroPedido = teclado.nextLine();
+        Cliente cliente;
+        Articulo articulo;
+        System.out.println("--- Crear Pedido --- ");
+        System.out.print("Email Cliente: ");
+        String emailCliente = teclado.next();
+        cliente = this.clientesControlador.returnCliente(emailCliente);
+        System.out.println("--- Lista Articulos disponibles ---");
+        this.articulosControlador.articleList();
+        System.out.println("--- Introduce el codigo del articulo --- \n");
+        System.out.println("Codigo Articulo");
+        String idArticulo = teclado.next();
+        articulo = this.articulosControlador.returnArticulo(idArticulo);
         System.out.print("Cantidad: ");
-        String cantidad = teclado.nextLine();
-        System.out.print("Fecha de Pedido: ");
-        String fechaPedido = teclado.nextLine();
-        System.out.print("Cliente: ");
-        String cli = teclado.nextLine();
-        System.out.print("Artículo: ");
-        String art = teclado.nextLine();
-        if(pedidosControlador.pedidoExists(numeroPedido)){
-            System.out.println("El pedido ya existe");
-            return;
+        int cantidad = teclado.nextInt();
+        Pedido nuevoPedido = new Pedido(cliente,articulo,cantidad);
+        this.pedidosControlador.crearPedido(nuevoPedido);
+    }
+
+
+
+
+    public void listarPedidos(Scanner scanner,Boolean estadoEnvio){
+        Optional<Boolean> estado = Optional.ofNullable(estadoEnvio);
+        if(Boolean.TRUE.equals(estadoEnvio)){
+            pedidosControlador.listarPedidosEnviados();
+        }else if(Boolean.FALSE.equals(estadoEnvio)){
+            pedidosControlador.listarPedidosPendientes();
+        }else if (estado.isEmpty()) {
+            pedidosControlador.listarPedidos();
         }
     }
 
-
-    public void listarPedidos(){ this.articulosControlador.articleList();
-
+    public void borrarPedido(Scanner scanner){
+        Pedido pedido;
+        System.out.println("Numero Pedido: ");;
+        String numeroPedido = teclado.next();
+        pedido = this.pedidosControlador.mostrarPedido(numeroPedido);
+        if (pedido.esCancelable()){
+            this.pedidosControlador.borrar(pedido);
+            System.out.println("El pedido con numero de pedido: " + numeroPedido + " ha sido borrado correctamente");
+        }else {
+            System.out.println("Este pedido no se puede cancelar en estos momentos.");
+        }
     }
-
-
 }
