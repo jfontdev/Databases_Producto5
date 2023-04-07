@@ -1,37 +1,82 @@
 package Databases_modelo;
 
+import Databases_dao.DAOException;
+import Databases_dao.MySQLDAOManager;
 import enums.ClienteTipo;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import java.util.ArrayList;
 
 public class Datos {
+    private MySQLDAOManager mySQLDAOManager;
     private ListaArticulos listaArticulos;
-    private ListaClientes listaClientes;
+    private ArrayList<Cliente> listaClientes;
     private ListaPedidos listaPedidos;
 
-    public Datos(){
+    public Datos() throws DAOException, SQLException {
+        this.mySQLDAOManager = new MySQLDAOManager();
+        listaClientes = readDBClientes();
         listaArticulos = new ListaArticulos();
-        listaClientes = new ListaClientes();
         listaPedidos = new ListaPedidos();
 
         cargarDatos();
     }
 
-    public void cargarDatos(){
-        Cliente clientePremium1 = new ClientePremium("Jordi","Font","C/Rocafort 125","12345678A","jordi@gmail.com",ClienteTipo.PREMIUM);
-        try {
-            listaClientes.add(clientePremium1);
-            ClientePremium clientePremium2 = new ClientePremium("Abel","Gimenez","C/Calabria 134","98763121B","abel@gmail.com",ClienteTipo.PREMIUM);
-            listaClientes.add(clientePremium2);
-            ClienteEstandard clienteEstandard1 = new ClienteEstandard("David","Gonzalez","C/Cantabria 92","12356732C","david@gmail.com",ClienteTipo.ESTANDARD);
-            listaClientes.add(clienteEstandard1);
-            ClienteEstandard clienteEstandard2 = new ClienteEstandard("Marta","Rodriguez","C/Mallorca 22","6355232D","marta@gmail.com",ClienteTipo.ESTANDARD);
-            listaClientes.add(clienteEstandard2);
-        }catch (Exception e){
-            System.out.println("La carga de datos ha fallado");
+    //**** Funciones BBDD Cliente
+
+    public ArrayList<Cliente> getClientes(){return this.listaClientes;}
+
+    public ArrayList<Cliente> readDBClientes() throws DAOException{
+        return mySQLDAOManager.getClienteDAO().readAll();
+    }
+
+    public ArrayList<Cliente> getPremiumCustomers(){
+        ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+        for (Cliente listaCliente : this.listaClientes) {
+            if (listaCliente.getTipo() == ClienteTipo.PREMIUM) {
+                clientes.add(listaCliente);
+            }
         }
+        return clientes;
+    }
+
+    public ArrayList<Cliente> getStandardCustomers(){
+        ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+        for (Cliente listaCliente : this.listaClientes) {
+            if (listaCliente.getTipo() == ClienteTipo.ESTANDARD) {
+                clientes.add(listaCliente);
+            }
+        }
+        return clientes;
+    }
+
+    public void customerAdd(Cliente cliente) throws Exception {
+        try {
+            this.mySQLDAOManager.getClienteDAO().create(cliente);
+            this.listaClientes = readDBClientes();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public boolean customerExists(String email){
+        boolean existe = false;
+        for (Cliente listaCliente : this.listaClientes) {
+            if (email.equals(listaCliente.getEmail())) {
+                existe = true;
+            }
+        }
+        return existe;
+    }
+
+    public int customerLength(){
+        return this.listaClientes.size();
+    }
+
+
+    public void cargarDatos(){
         Articulo articulo1 = new Articulo("1", "Nevera", 499.99f, 19.99f, 3);
         try {
           listaArticulos.add(articulo1);
@@ -44,14 +89,14 @@ public class Datos {
         }catch (Exception e){
           System.out.println("La carga de datos ha fallado");
         }
-        Pedido pedido1 = new Pedido(listaClientes.getAt(0),listaArticulos.getAt(0),  20);
+        Pedido pedido1 = new Pedido(listaClientes.get(0),listaArticulos.getAt(0),  20);
         try {
             listaPedidos.add(pedido1);
-            Pedido pedido2 = new Pedido(listaClientes.getAt(1),listaArticulos.getAt(2),  25);
+            Pedido pedido2 = new Pedido(listaClientes.get(1),listaArticulos.getAt(2),  25);
             listaPedidos.add(pedido2);
-            Pedido pedido3 = new Pedido(listaClientes.getAt(2),listaArticulos.getAt(1),  10);
+            Pedido pedido3 = new Pedido(listaClientes.get(2),listaArticulos.getAt(1),  10);
             listaPedidos.add(pedido3);
-            Pedido pedido4 = new Pedido(listaClientes.getAt(3),listaArticulos.getAt(0),  5);
+            Pedido pedido4 = new Pedido(listaClientes.get(3),listaArticulos.getAt(0),  5);
             listaPedidos.add(pedido4);
         }catch (Exception e) {
             System.out.println("La carga de datos ha fallado");
@@ -59,57 +104,14 @@ public class Datos {
     }
 
 
-
-
-    public ArrayList<Cliente> getCustomers() {
-        return this.listaClientes.getArrayList();
-    }
-
     public ListaArticulos getArticulos() {
         return this.listaArticulos;
-    }
-
-    public ArrayList<Cliente> getPremiumCustomers(){
-        ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-
-        for (int i=0; i < this.listaClientes.getSize(); i++){
-            if (this.listaClientes.getAt(i).getTipo() == ClienteTipo.PREMIUM){
-                clientes.add(this.listaClientes.getAt(i));
-            }
-        }
-        return clientes;
-    }
-
-    public ArrayList<Cliente> getStandardCustomers(){
-        ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-
-        for (int i=0; i < this.listaClientes.getSize(); i++){
-            if (this.listaClientes.getAt(i).getTipo() == ClienteTipo.ESTANDARD){
-                clientes.add(this.listaClientes.getAt(i));
-            }
-        }
-        return clientes;
-    }
-
-    public void customerAdd(Cliente cliente) throws Exception {
-        try {
-            this.listaClientes.add(cliente);
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    public boolean customerExists(String email){
-        return this.listaClientes.contains(email);
     }
 
     public boolean articleExists(String artCod){
         return this.listaArticulos.contains(artCod);
     }
 
-    public int customerLength(){
-        return this.listaClientes.getSize();
-    }
 
     public ArrayList<Articulo> getArticles() {
       return this.listaArticulos.getArrayList();
