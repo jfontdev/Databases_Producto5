@@ -16,7 +16,7 @@ public class ClientesControlador {
     }
 
     public void clientList(){
-        final ArrayList<Cliente> clientes = datos.getCustomers();
+        final ArrayList<Cliente> clientes = datos.getClientes();
         this.clienteVista.renderAll(clientes);
     }
 
@@ -47,8 +47,8 @@ public class ClientesControlador {
         Cliente cliente = null;
         try {
             for (int i = 0; i < this.datos.customerLength(); i++){
-                if (email.equals(this.datos.getCustomers().get(i).getEmail())){
-                    cliente = this.datos.getCustomers().get(i);
+                if (email.equals(this.datos.getClientes().get(i).getEmail())){
+                    cliente = this.datos.getClientes().get(i);
                 }
             }
         }catch (Exception e){
