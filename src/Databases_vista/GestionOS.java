@@ -3,9 +3,11 @@ package Databases_vista;
 import Databases_controlador.ArticulosControlador;
 import Databases_controlador.ClientesControlador;
 import Databases_controlador.PedidosControlador;
+import Databases_dao.DAOException;
 import Databases_modelo.*;
 import enums.ClienteTipo;
 
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -16,7 +18,7 @@ public class GestionOS {
     private PedidosControlador pedidosControlador;
     Scanner teclado = new Scanner(System.in);
 
-    public GestionOS(){
+    public GestionOS() throws DAOException, SQLException {
         this.datos = new Datos();
         this.clientesControlador = new ClientesControlador(this.datos);
         this.articulosControlador = new ArticulosControlador(this.datos);
