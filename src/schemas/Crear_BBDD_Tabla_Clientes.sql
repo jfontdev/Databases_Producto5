@@ -25,22 +25,6 @@ CREATE TABLE `clientes` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Table structure for table `articulos`
---
-
-DROP TABLE IF EXISTS `articulos`;
-CREATE TABLE `articulos` (
-  `id_articulo` int NOT NULL AUTO_INCREMENT,
-  `codigo_articulo` varchar(8) NOT NULL,
-  `descripcion` varchar(200) DEFAULT NULL,
-  `precio_venta` float DEFAULT NULL,
-  `gastos_envio` float DEFAULT NULL,
-  `tiempo_preparacion` int DEFAULT NULL,
-  PRIMARY KEY (`id_articulo`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-
---
 -- Dumping data for table `clientes`
 --
 

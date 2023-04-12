@@ -81,18 +81,6 @@ public class Datos {
 
 
     public void cargarDatos(){
-        Articulo articulo1 = new Articulo("1", "Nevera", 499.99f, 19.99f, 3);
-        try {
-          listaArticulos.add(articulo1);
-          Articulo articulo2 = new Articulo("2", "Batidora", 500.90f, 7.00f, 1);
-          listaArticulos.add(articulo2);
-          Articulo articulo3 = new Articulo("3", "Microondas", 56.99f, 45.89f, 2);
-          listaArticulos.add(articulo3);
-          Articulo articulo4 = new Articulo("4", "Monitor", 34.67f, 34.89f, 1);
-          listaArticulos.add(articulo4);
-        }catch (Exception e){
-          System.out.println("La carga de datos ha fallado");
-        }
         Pedido pedido1 = new Pedido(listaClientes.get(0),listaArticulos.get(0),  20);
         try {
             listaPedidos.add(pedido1);
@@ -107,8 +95,18 @@ public class Datos {
         }
     }
 
+    /*
+     *** Articulos ***
+     */
+
     public boolean articleExists(String artCod){
-        return this.listaArticulos.contains(artCod);
+        boolean existe = false;
+        for (Articulo listaArticulo : this.listaArticulos) {
+            if (artCod.equals(listaArticulo.getCodigoArticulo())) {
+                existe = true;
+            }
+        }
+        return existe;
     }
 
     public ArrayList<Articulo> getArticles() {
