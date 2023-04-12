@@ -1,5 +1,6 @@
 package Databases_controlador;
 import Databases_modelo.Articulo;
+import Databases_modelo.Cliente;
 import Databases_modelo.Datos;
 import Databases_vista.ArticuloVista;
 
@@ -29,7 +30,12 @@ public class ArticulosControlador {
     }
 
     public Articulo returnArticulo(String codigoArticulo) {
-        return this.datos.getArticulos().getByCode(codigoArticulo);
+        for (Articulo articulo : this.datos.getArticles()) {
+            if (articulo.getCodigoArticulo().equals(codigoArticulo)) {
+                return articulo;
+            }
+        }
+        return null;
     }
 
     public boolean articuloRepe(String codigoArticulo) {

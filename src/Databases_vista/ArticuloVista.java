@@ -15,6 +15,7 @@ public class ArticuloVista {
     }
 
     public void error(Exception exception){
-        System.out.println("Ha ocurrido un error en clientes");
+        System.out.println("Ha ocurrido un error en artículos: \n\n");
+        System.out.println("Mensaje de error de sql \n" + exception.getMessage());
     }
 }

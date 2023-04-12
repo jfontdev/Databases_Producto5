@@ -11,14 +11,14 @@ import java.util.ArrayList;
 
 public class Datos {
     private MySQLDAOManager mySQLDAOManager;
-    private ListaArticulos listaArticulos;
+    private ArrayList<Articulo> listaArticulos;
     private ArrayList<Cliente> listaClientes;
     private ListaPedidos listaPedidos;
 
     public Datos() throws DAOException, SQLException {
         this.mySQLDAOManager = new MySQLDAOManager();
         listaClientes = readDBClientes();
-        listaArticulos = new ListaArticulos();
+        listaArticulos = readDBArticulos();
         listaPedidos = new ListaPedidos();
 
         cargarDatos();
@@ -30,6 +30,10 @@ public class Datos {
 
     public ArrayList<Cliente> readDBClientes() throws DAOException{
         return mySQLDAOManager.getClienteDAO().readAll();
+    }
+
+    public ArrayList<Articulo> readDBArticulos() throws DAOException{
+        return mySQLDAOManager.getArticuloDAO().readAll();
     }
 
     public ArrayList<Cliente> getPremiumCustomers(){
@@ -89,39 +93,35 @@ public class Datos {
         }catch (Exception e){
           System.out.println("La carga de datos ha fallado");
         }
-        Pedido pedido1 = new Pedido(listaClientes.get(0),listaArticulos.getAt(0),  20);
+        Pedido pedido1 = new Pedido(listaClientes.get(0),listaArticulos.get(0),  20);
         try {
             listaPedidos.add(pedido1);
-            Pedido pedido2 = new Pedido(listaClientes.get(1),listaArticulos.getAt(2),  25);
+            Pedido pedido2 = new Pedido(listaClientes.get(1),listaArticulos.get(2),  25);
             listaPedidos.add(pedido2);
-            Pedido pedido3 = new Pedido(listaClientes.get(2),listaArticulos.getAt(1),  10);
+            Pedido pedido3 = new Pedido(listaClientes.get(2),listaArticulos.get(1),  10);
             listaPedidos.add(pedido3);
-            Pedido pedido4 = new Pedido(listaClientes.get(3),listaArticulos.getAt(0),  5);
+            Pedido pedido4 = new Pedido(listaClientes.get(3),listaArticulos.get(0),  5);
             listaPedidos.add(pedido4);
         }catch (Exception e) {
             System.out.println("La carga de datos ha fallado");
         }
     }
 
-
-    public ListaArticulos getArticulos() {
-        return this.listaArticulos;
-    }
-
     public boolean articleExists(String artCod){
         return this.listaArticulos.contains(artCod);
     }
 
-
     public ArrayList<Articulo> getArticles() {
-      return this.listaArticulos.getArrayList();
+      return this.listaArticulos;
     }
+
     public void articleAdd(Articulo articulo) throws Exception {
-      try{
-        this.listaArticulos.add(articulo);
-      }catch (Exception e){
-        throw e;
-      }
+        try {
+            this.mySQLDAOManager.getArticuloDAO().create(articulo);
+            this.listaArticulos = readDBArticulos();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     /*
