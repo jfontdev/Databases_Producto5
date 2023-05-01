@@ -66,6 +66,12 @@ public class Pedido {
      */
 
     /*
+    * Numero Pedido ID
+     */
+    public int getNumeroPedidoId(){return numeroPedidoId;}
+
+    public void setNumeroPedidoId(int numeroPedidoId) {this.numeroPedidoId = numeroPedidoId; }
+    /*
      * cantidad
      */
     public int getCantidadArticulo() {
@@ -94,10 +100,28 @@ public class Pedido {
         return fechaPedido;
     }
 
+
     public void setFechaPedido(LocalDateTime fechaPedido) {
         this.fechaPedido = fechaPedido;
     }
 
+
+
+    /*
+     *    Fecha Envio
+     */
+
+    public LocalDateTime getFechaEnvio(){return fechaEnvio;}
+
+
+    public void setFechaEnvio(LocalDateTime fechaEnvio) {this.fechaEnvio = fechaEnvio;}
+    /*
+    * Tiempo Preparacion
+    */
+
+    public int getTiempoPreparacion(){ return tiempoPreparacion;}
+
+    public void setTiempoPreparacion(int tiempoPreparacion){ this.tiempoPreparacion = tiempoPreparacion;}
     /*
      * cliente
      */
@@ -120,6 +144,14 @@ public class Pedido {
         this.articulo = articulo;
     }
 
+    /*
+     * Se Ha Enviado
+     */
+
+    public boolean getSeHaEnviado() { return seHaEnviado;}
+
+    public void setSeHaEnviado(boolean seHaEnviado) { this.seHaEnviado = seHaEnviado;}
+
     @Override
     public String toString() {
         return "Pedido " +
@@ -134,6 +166,8 @@ public class Pedido {
                 ", precioEnvio=" + precioEnvio() +
                 ", Enviado=" + pedidoEnviado();
     }
+
+
 }
 
 
