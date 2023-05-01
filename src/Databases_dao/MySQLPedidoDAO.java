@@ -1,6 +1,8 @@
 package Databases_dao;
 
 
+import Databases_modelo.Articulo;
+import Databases_modelo.Cliente;
 import Databases_modelo.Pedido;
 
 import java.sql.*;
@@ -54,7 +56,7 @@ public class MySQLPedidoDAO implements PedidoDAO {
         return null;
     }
 
-
+    // Hay que modificar esta funcion, de momento esta arreglada para que el resto(articulos/clientes).
     private Pedido convertir(ResultSet resultSet) throws SQLException{
         int numeroPedidoId = resultSet.getInt("numeroPedidoId");
         String numeroPedido = resultSet.getString("numeroPedido");
@@ -65,7 +67,9 @@ public class MySQLPedidoDAO implements PedidoDAO {
         LocalDateTime fechaEnvio = resultSet.getTimestamp("fechaEnvio").toLocalDateTime();
         int tiempoPreparacion = resultSet.getInt("tiempoPreparacion");
         boolean seHaenviado = resultSet.getBoolean("seHaenviado");
-        return new Pedido(numeroPedidoId, numeroPedido, cliente, articulo, cantidadArticulo, fechaPedido, fechaEnvio, tiempoPreparacion, seHaenviado);
+        Cliente Cliente = null;
+        Articulo Articulo = null;
+        return new Pedido(Cliente, Articulo,  cantidadArticulo);
     }
 
     @Override
