@@ -1,6 +1,7 @@
 package Databases_modelo;
 
 import Databases_dao.DAOException;
+import Databases_dao.Hibernate_DAO.HibernateDaoManager;
 import Databases_dao.MySQLDAOManager;
 import enums.ClienteTipo;
 
@@ -11,17 +12,19 @@ import java.util.ArrayList;
 
 public class Datos {
     private MySQLDAOManager mySQLDAOManager;
+    private HibernateDaoManager hibernateDaoManager;
     private ArrayList<Articulo> listaArticulos;
     private ArrayList<Cliente> listaClientes;
     private ListaPedidos listaPedidos;
 
     public Datos() throws DAOException, SQLException {
         this.mySQLDAOManager = new MySQLDAOManager();
+        this.hibernateDaoManager = new HibernateDaoManager();
         listaClientes = readDBClientes();
         listaArticulos = readDBArticulos();
         listaPedidos = new ListaPedidos();
 
-        cargarDatos();
+        //cargarDatos();
     }
 
     //**** Funciones BBDD Cliente
@@ -29,7 +32,7 @@ public class Datos {
     public ArrayList<Cliente> getClientes(){return this.listaClientes;}
 
     public ArrayList<Cliente> readDBClientes() throws DAOException{
-        return mySQLDAOManager.getClienteDAO().readAll();
+        return hibernateDaoManager.getClienteDAO().readAll();
     }
 
     public ArrayList<Articulo> readDBArticulos() throws DAOException{
@@ -58,7 +61,7 @@ public class Datos {
 
     public void customerAdd(Cliente cliente) throws Exception {
         try {
-            this.mySQLDAOManager.getClienteDAO().create(cliente);
+            this.hibernateDaoManager.getClienteDAO().create(cliente);
             this.listaClientes = readDBClientes();
         } catch (Exception e) {
             throw e;
@@ -80,7 +83,7 @@ public class Datos {
     }
 
 
-    public void cargarDatos(){
+   /* public void cargarDatos(){
         Pedido pedido1 = new Pedido(listaClientes.get(0),listaArticulos.get(0),  20);
         try {
             listaPedidos.add(pedido1);
@@ -93,7 +96,7 @@ public class Datos {
         }catch (Exception e) {
             System.out.println("La carga de datos ha fallado");
         }
-    }
+    }*/
 
     /*
      *** Articulos ***
