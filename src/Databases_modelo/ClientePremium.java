@@ -8,11 +8,5 @@ public class ClientePremium extends Cliente {
         super(nombre, apellidos, domicilio, nif, email, ClienteTipo.PREMIUM);
     }
 
-    public float calcAnual() {
-        return this.tipo == ClienteTipo.PREMIUM ? 20 : 0;
-    }
 
-    public float descuentoEnv(){
-        return this.tipo == ClienteTipo.PREMIUM ? 30 : 0;
-    }
 }

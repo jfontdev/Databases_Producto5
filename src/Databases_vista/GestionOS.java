@@ -137,12 +137,12 @@ public class GestionOS {
         }while (!"12".contains(tipo));
         switch (tipo){
             case "1":
-                ClientePremium clientePremium = new ClientePremium(nombre,apellido,domicilio,nif,email,ClienteTipo.PREMIUM);
-                this.clientesControlador.createClient(clientePremium);
+                Cliente clienteP = new Cliente(nombre,apellido,domicilio,nif,email,ClienteTipo.PREMIUM);
+                this.clientesControlador.createClient(clienteP);
                 break;
             case "2":
-                ClienteEstandard clienteEstandard = new ClienteEstandard(nombre,apellido,domicilio,nif,email,ClienteTipo.ESTANDARD);
-                this.clientesControlador.createClient(clienteEstandard);
+                Cliente clienteS = new Cliente(nombre,apellido,domicilio,nif,email,ClienteTipo.ESTANDARD);
+                this.clientesControlador.createClient(clienteS);
                 break;
         }
     }

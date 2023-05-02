@@ -2,16 +2,39 @@ package Databases_modelo;
 
 import enums.ClienteTipo;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.StringJoiner;
 
-public abstract class Cliente {
-    private String nombre;
-    private String apellidos;
-    private String domicilio;
-    private String nif;
-    private String email;
+@Entity
+
+@Table(name="clientes")
+public class Cliente implements Serializable {
+
+    @Column(name = "nombre")
+    protected String nombre;
+
+    @Column(name = "apellidos")
+    protected String apellidos;
+
+    @Column(name = "domicilio")
+    protected String domicilio;
+
+    @Column(name = "nif")
+    protected String nif;
+
+    @Id
+    @Column(name = "email")
+    protected String email;
+
+    @Column(name = "tipo")
+    @Enumerated(value = EnumType.STRING)
     protected ClienteTipo tipo;
+
+    @Column(name = "tasaCliente")
     protected float tasaCliente;
+
+    @Column(name = "descuentoCliente")
     protected float descuentoCliente;
 
     public Cliente(String nombre, String apellidos, String domicilio, String nif, String email, ClienteTipo tipo) {
@@ -25,9 +48,17 @@ public abstract class Cliente {
         this.descuentoCliente = descuentoEnv();
     }
 
-    public abstract float calcAnual();
+    public Cliente() {
 
-    public abstract float descuentoEnv();
+    }
+
+    private float descuentoEnv() {
+        return this.tipo == ClienteTipo.PREMIUM ? 20 : 0;
+    }
+
+    private float calcAnual(){
+        return this.tipo == ClienteTipo.PREMIUM ? 30 : 0;
+    }
 
     public String getNombre() {
         return nombre;

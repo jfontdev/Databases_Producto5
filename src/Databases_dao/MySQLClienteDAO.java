@@ -58,29 +58,7 @@ public class MySQLClienteDAO implements ClienteDAO {
         String nif = resultSet.getString("nif");
         String email = resultSet.getString("email");
         ClienteTipo tipo =  ClienteTipo.valueOf(resultSet.getString("tipo"));
-        return new Cliente(nombre, apellidos, domicilio, nif, email, tipo) {
-            @Override
-            public float calcAnual() {
-                float cuota;
-                if (tipo.equals(ClienteTipo.ESTANDARD)){
-                    cuota = 0;
-                }else {
-                    cuota = 20;
-                }
-                return cuota;
-            }
-
-            @Override
-            public float descuentoEnv() {
-                float descuento;
-                if (tipo.equals(ClienteTipo.ESTANDARD)){
-                    descuento = 0;
-                }else {
-                    descuento = 30;
-                }
-                return descuento;
-            }
-        };
+        return new Cliente(nombre, apellidos, domicilio, nif, email, tipo);
     }
 
 
