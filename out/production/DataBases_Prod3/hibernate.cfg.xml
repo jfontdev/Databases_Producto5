@@ -44,8 +44,8 @@ Contributor(s):
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/producto3?zeroDateTimeBehavior=convertToNull</property>
-        <property name="hibernate.connection.username">Databases</property>
-        <property name="hibernate.connection.password">Databases</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">password</property>
 
         <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
         <property name="hibernate.current_session_context_class">thread</property>

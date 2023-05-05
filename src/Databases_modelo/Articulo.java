@@ -1,14 +1,29 @@
 package Databases_modelo;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.StringJoiner;
 
+@Entity
 
-public class Articulo {
-  private String codigoArticulo;
-  private String descripcion;
-  private float precioVenta;
-  private float gastosEnvio;
-  private int tiempoPreparacion;
+@Table(name="articulos")
+public class Articulo implements Serializable {
 
+  @Id
+  @Column(name = "codigo_articulo")
+  protected String codigoArticulo;
+
+  @Column(name = "descripcion")
+  protected String descripcion;
+
+  @Column(name = "precio_venta")
+  protected float precioVenta;
+
+  @Column(name = "gastos_envio")
+  protected float gastosEnvio;
+
+  @Column(name = "tiempo_preparacion")
+  protected int tiempoPreparacion;
 
 
   public Articulo (String codigoArticulo, String descripcion, float precioVenta, float gastosEnvio, int tiempoPreparacion){

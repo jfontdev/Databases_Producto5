@@ -102,28 +102,34 @@ public class Datos {
      *** Articulos ***
      */
 
-    public boolean articleExists(String artCod){
-        boolean existe = false;
-        for (Articulo listaArticulo : this.listaArticulos) {
-            if (artCod.equals(listaArticulo.getCodigoArticulo())) {
-                existe = true;
-            }
-        }
-        return existe;
+  public void articleAdd(Articulo articulo) throws Exception {
+      try{
+          this.hibernateDaoManager.getArticuloDAO().create(articulo);
+          this.listaArticulos = readDBArticulos();
+      }catch (Exception e) {
+          throw e;
+      }
+  }
+
+  public boolean articleExists(String codigoArticulo){
+      boolean existe = false;
+      for (Articulo listaArticulo : this.listaArticulos){
+          if (codigoArticulo.equals(listaArticulo.getCodigoArticulo())){
+              existe = true;
+          }
+      }
+      return existe;
+  }
+
+public int articleLength(){
+      return this.listaArticulos.size();
+}
+
+public ArrayList<Articulo> getArticles() {
+        return this.listaArticulos;
     }
 
-    public ArrayList<Articulo> getArticles() {
-      return this.listaArticulos;
-    }
 
-    public void articleAdd(Articulo articulo) throws Exception {
-        try {
-            this.mySQLDAOManager.getArticuloDAO().create(articulo);
-            this.listaArticulos = readDBArticulos();
-        } catch (Exception e) {
-            throw e;
-        }
-    }
 
     /*
      *********Pedidos***********
