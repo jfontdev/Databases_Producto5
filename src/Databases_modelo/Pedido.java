@@ -2,17 +2,41 @@ package Databases_modelo;
 
 import java.time.LocalDateTime;
 
-public class Pedido {
+import javax.persistence.*;
+import java.io.Serializable;
 
-    public static int numeroPedidoId;
-    private String numeroPedido;
-    private Cliente cliente;
-    private Articulo articulo;
-    private int cantidadArticulo;
-    private LocalDateTime fechaPedido;
-    private LocalDateTime fechaEnvio;
-    private int tiempoPreparacion ;
-    private boolean seHaEnviado;
+@Entity
+
+@Table(name="pedidos")
+public class Pedido implements Serializable {
+    @Id
+    @Column(name = "numeroPedidoID")
+    protected int numeroPedidoID;
+
+
+    @Column(name = "numeroPedido")
+    protected String numeroPedido;
+
+    @Column(name = "cliente")
+    protected Cliente cliente;
+
+    @Column(name = "articulo")
+    protected Articulo articulo;
+
+    @Column(name = "cantidadArticulo")
+    protected int cantidadArticulo;
+
+    @Column(name = "fechaPedido")
+    protected LocalDateTime fechaPedido;
+
+    @Column(name = "fechaEnvio")
+    protected LocalDateTime fechaEnvio;
+
+    @Column(name = "tiempoPreparacion")
+    protected int tiempoPreparacion;
+
+    @Column(name = "seHaEnviado")
+    protected boolean seHaEnviado;
 
     /*
      * Constructor
