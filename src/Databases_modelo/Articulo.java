@@ -35,6 +35,10 @@ public class Articulo implements Serializable {
     this.tiempoPreparacion = tiempoPreparacion;
   }
 
+  public Articulo() {
+
+  }
+
   public String getCodigoArticulo(){
     return codigoArticulo;
   }
