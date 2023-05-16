@@ -6,13 +6,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-
+// FALTA HACER LAS RELACIONES DE CLIENTE Y ARTICULOS
 @Table(name="pedidos")
 public class Pedido implements Serializable {
     @Id
     @Column(name = "numeroPedidoID")
-    protected int numeroPedidoID;
-
+    protected static int numeroPedidoID;
 
     @Column(name = "numeroPedido")
     protected String numeroPedido;
@@ -50,9 +49,13 @@ public class Pedido implements Serializable {
         this.tiempoPreparacion = articulo.getTiempoPreparacion();
     }
 
+    public Pedido() {
+
+    }
+
     public static String generadorIdPedido(){
-        numeroPedidoId++;
-        return String.valueOf(numeroPedidoId);
+        numeroPedidoID++;
+        return String.valueOf(numeroPedidoID);
     }
 
     /*
@@ -92,9 +95,9 @@ public class Pedido implements Serializable {
     /*
     * Numero Pedido ID
      */
-    public int getNumeroPedidoId(){return numeroPedidoId;}
+    public int getNumeroPedidoId(){return numeroPedidoID;}
 
-    public void setNumeroPedidoId(int numeroPedidoId) {this.numeroPedidoId = numeroPedidoId; }
+    public void setNumeroPedidoId(int numeroPedidoId) {this.numeroPedidoID = numeroPedidoId; }
     /*
      * cantidad
      */
