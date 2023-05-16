@@ -12,17 +12,17 @@ import java.util.ArrayList;
 
 public class Datos {
     private MySQLDAOManager mySQLDAOManager;
-    private HibernateDaoManager hibernateDaoManager;
+    private final HibernateDaoManager hibernateDaoManager;
     private ArrayList<Articulo> listaArticulos;
     private ArrayList<Cliente> listaClientes;
-    private ListaPedidos listaPedidos;
+    private ArrayList<Pedido> listaPedidos;
 
     public Datos() throws DAOException, SQLException {
-        this.mySQLDAOManager = new MySQLDAOManager();
+//        this.mySQLDAOManager = new MySQLDAOManager();
         this.hibernateDaoManager = new HibernateDaoManager();
         listaClientes = readDBClientes();
         listaArticulos = readDBArticulos();
-        listaPedidos = new ListaPedidos();
+        listaPedidos = readDBPedidos();
 
         //cargarDatos();
     }
@@ -36,8 +36,13 @@ public class Datos {
     }
 
     public ArrayList<Articulo> readDBArticulos() throws DAOException{
-        return mySQLDAOManager.getArticuloDAO().readAll();
+        return hibernateDaoManager.getArticuloDAO().readAll();
     }
+
+    public ArrayList<Pedido> readDBPedidos() throws DAOException{
+        return hibernateDaoManager.getPedidoDAO().readAll();
+    }
+
 
     public ArrayList<Cliente> getPremiumCustomers(){
         ArrayList<Cliente> clientes = new ArrayList<Cliente>();
@@ -136,15 +141,15 @@ public ArrayList<Articulo> getArticles() {
      */
 
     public ArrayList<Pedido> getOrders() {
-        return this.listaPedidos.getArrayList();
+        return this.listaPedidos;
     }
 
 
     public ArrayList<Pedido> getPedidosEnviados(){
         ArrayList<Pedido> pedidosEnviados = new ArrayList<Pedido>();
-        for (int i = 0; i < this.listaPedidos.getSize(); i++){
-            if (this.listaPedidos.getAt(i).pedidoEnviado()){
-                pedidosEnviados.add(this.listaPedidos.getAt(i));
+        for (Pedido listaPedidos : this.listaPedidos){
+            if (listaPedidos.pedidoEnviado()){
+                pedidosEnviados.add(listaPedidos);
             }
         }
         return pedidosEnviados;
@@ -153,9 +158,9 @@ public ArrayList<Articulo> getArticles() {
     public ArrayList<Pedido> getPedidosPendientes(){
         ArrayList<Pedido> pedidosPendientes = new ArrayList<Pedido>();
 
-        for (int i = 0; i < this.listaPedidos.getSize(); i++){
-            if (!this.listaPedidos.getAt(i).pedidoEnviado()){
-                pedidosPendientes.add(this.listaPedidos.getAt(i));
+        for (Pedido listaPedidos : this.listaPedidos){
+            if (!listaPedidos.pedidoEnviado()){
+                pedidosPendientes.add(listaPedidos);
             }
         }
         return pedidosPendientes;
@@ -175,8 +180,8 @@ public ArrayList<Articulo> getArticles() {
         }
     }
 
-    public void borrarPedido(Pedido pedido){this.listaPedidos.delete(pedido);}
+    public void borrarPedido(Pedido pedido){listaPedidos.remove(pedido);}
 
-    public int longitudPedidos() {return this.listaPedidos.getSize();}
+    public int longitudPedidos() {return listaPedidos.size();}
 
 }
