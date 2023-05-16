@@ -9,10 +9,10 @@ import java.io.Serializable;
 // FALTA HACER LAS RELACIONES DE CLIENTE Y ARTICULOS
 @Table(name="pedidos")
 public class Pedido implements Serializable {
-    @Id
     @Column(name = "numeroPedidoID")
     protected static int numeroPedidoID;
 
+    @Id
     @Column(name = "numeroPedido")
     protected String numeroPedido;
 
