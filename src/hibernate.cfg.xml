@@ -51,5 +51,7 @@ Contributor(s):
         <property name="hibernate.current_session_context_class">thread</property>
         <mapping class="Databases_modelo.Cliente"/>
         <mapping class="Databases_modelo.Articulo"/>
+        <mapping class="Databases_modelo.Pedido"/>
+
     </session-factory>
 </hibernate-configuration>
