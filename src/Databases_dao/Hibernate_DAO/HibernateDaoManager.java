@@ -8,12 +8,12 @@ import Databases_dao.PedidoDAO;
 public class HibernateDaoManager implements DAOManager {
     private ClienteDAO clienteDAO = null;
     private ArticuloDAO articuloDAO;
-    private PedidoDAO pedidoDAO;
+    private PedidoDAO pedidoDAO = null;
 
     public HibernateDaoManager(){
         clienteDAO = new HibernateClienteDao();
         articuloDAO = null;
-        pedidoDAO = null;
+        pedidoDAO = new HibernatePedidoDao();
 
     }
     @Override
