@@ -78,6 +78,7 @@ public class HibernateClienteDao implements ClienteDAO {
         try {
             HibernateUtil.buildSessionFactory();
             Session session = HibernateUtil.getCurrentSession();
+            session.beginTransaction();
             session.delete(eliminado);
             session.getTransaction().commit();
         }catch (Exception exception){
