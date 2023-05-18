@@ -52,11 +52,11 @@ public class Cliente implements Serializable {
 
     }
 
-    private float descuentoEnv() {
+    public float descuentoEnv() {
         return this.tipo == ClienteTipo.PREMIUM ? 20 : 0;
     }
 
-    private float calcAnual(){
+    public float calcAnual(){
         return this.tipo == ClienteTipo.PREMIUM ? 30 : 0;
     }
 
