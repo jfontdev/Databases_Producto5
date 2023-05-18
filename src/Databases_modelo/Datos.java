@@ -73,6 +73,23 @@ public class Datos {
         }
     }
 
+    public void customerUpdate(Cliente cliente) throws DAOException{
+        try {
+            this.hibernateDaoManager.getClienteDAO().update(cliente);
+            this.listaClientes = readDBClientes();
+        } catch (DAOException e) {
+            throw  e;
+        }
+    }
+
+    public void deleteCustomer(Cliente cliente) throws DAOException {
+        this.hibernateDaoManager.getClienteDAO().delete(cliente);
+        this.listaClientes = readDBClientes();
+    }
+
+
+
+
     public boolean customerExists(String email){
         boolean existe = false;
         for (Cliente listaCliente : this.listaClientes) {
