@@ -3,7 +3,6 @@ package Databases_dao.Hibernate_DAO;
 import Databases_dao.DAOException;
 import Databases_dao.PedidoDAO;
 import Databases_modelo.Pedido;
-import Databases_modelo.Cliente;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 

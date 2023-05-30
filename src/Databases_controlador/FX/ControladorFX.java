@@ -15,6 +15,8 @@ public class ControladorFX implements Initializable {
 
     @FXML
     private Button btnShowCustomer;
+    @FXML
+    private Button btnShowInvoice;
 
     /**
      * Initializes the controller class.
@@ -41,6 +43,28 @@ public class ControladorFX implements Initializable {
             stage.setOnCloseRequest(e -> controller.closeWindows());
 
             Stage myStage = (Stage) this.btnShowCustomer.getScene().getWindow();
+            myStage.close();
+        } catch (Exception e) {
+
+        }
+    }
+    @FXML
+    private void showInvoices(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Databases_vista/FX/PedidoVistaFX.fxml"));
+            Parent root = loader.load();
+
+            ClientesControladorFX controller = loader.getController();
+
+            Scene scene = new Scene(root);
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+
+            stage.setOnCloseRequest(e -> controller.closeWindows());
+
+            Stage myStage = (Stage) this.btnShowInvoice.getScene().getWindow();
             myStage.close();
         } catch (Exception e) {
 
